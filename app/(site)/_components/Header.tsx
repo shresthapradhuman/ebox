@@ -4,8 +4,8 @@ import Logo from "./Logo";
 
 const Header = () => {
   return (
-    <header className="sticky z-50 w-full border-b bg-background top-0 shadow">
-      <nav className="container px-4 lg:px-12 mx-auto h-16 flex items-center justify-between">
+    <header className="bg-background sticky top-0 z-50 w-full border-b shadow">
+      <nav className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-12">
         {/* logo section */}
         <Logo />
         {/* user navigation section */}

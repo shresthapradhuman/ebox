@@ -21,27 +21,22 @@ const UserButton = () => {
   };
 
   return (
-    <div className="space-x-3 flex items-center">
+    <div className="flex items-center space-x-3">
       {isLoggedIn ? (
         <>
           <DropdownMenu>
             <DropdownMenuTrigger className="cursor-pointer">
-              <Avatar className="border-2 border-primary/40 hover:border-primary">
+              <Avatar className="border-primary/40 hover:border-primary border-2">
                 <AvatarImage src={"/"} alt="user profile image" />
                 <AvatarFallback>U</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-60"
-              align="end"
-              alignOffset={5}
-              sideOffset={10}
-            >
+            <DropdownMenuContent className="w-60" align="end" alignOffset={5} sideOffset={10}>
               <DropdownMenuLabel>
-                <h3 className="text-balance text-base font-medium capitalize">
+                <h3 className="text-base font-medium text-balance capitalize">
                   Pradhuman Shrestha
                 </h3>
-                <p className="truncate text-sm text-muted-foreground">
+                <p className="text-muted-foreground truncate text-sm">
                   shresthapradhuman2018@gmail.com
                 </p>
               </DropdownMenuLabel>
