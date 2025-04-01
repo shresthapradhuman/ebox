@@ -1,13 +1,22 @@
 import Link from "next/link";
 import { BoxIcon, HeadphonesIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const Logo = () => {
+const Logo = ({
+  className,
+  iconStyle,
+}: {
+  className?: string;
+  iconStyle?: string;
+}) => {
   return (
     <Link href={"/"}>
-      <h1 className="text-2xl flex items-center font-bold">
+      <h1 className={cn("text-2xl flex items-center font-bold", className)}>
         EVE
-        <HeadphonesIcon className="text-primary stroke-2 mx-1" />
-        T B <BoxIcon className="text-primary stroke-2 mx-1" />X
+        <HeadphonesIcon
+          className={cn("text-primary stroke-2 mx-1", iconStyle)}
+        />
+        T B <BoxIcon className={cn("text-primary stroke-2 mx-1", iconStyle)} />X
       </h1>
     </Link>
   );
