@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -11,8 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Event Box",
-  description:
-    "Create, manage, and sell event tickets easily on our online marketplace. Join now!",
+  description: "Create, manage, and sell event tickets easily on our online marketplace. Join now!",
 };
 
 export default function RootLayout({
@@ -22,8 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("relative antialiased font-sans", poppins.variable)}>
+      <body className={cn("relative font-sans antialiased", poppins.variable)}>
         {children}
+        <Toaster />
       </body>
     </html>
   );

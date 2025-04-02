@@ -11,18 +11,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { CogIcon, LogOutIcon } from "lucide-react";
+import { CogIcon, Loader, LogOutIcon } from "lucide-react";
 import Link from "next/link";
+import { User } from "next-auth";
+import { logoutAction } from "@/app/(site)/(auth)/lib/authRepo";
+import { useRouter } from "next/navigation";
 
-const UserButton = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
-  const handleLogout = () => {
-    setIsLoggedIn(false);
+const UserButton = ({ user }: { user: User | undefined }) => {
+  const [isPending, startTransition] = React.useTransition();
+  const router = useRouter();
+  const handleLogout = async () => {
+    startTransition(async () => {
+      await logoutAction();
+      router.refresh();
+    });
   };
 
   return (
     <div className="flex items-center space-x-3">
-      {isLoggedIn ? (
+      {isPending ? (
+        <>
+          <Loader className="h-5 w-5 animate-spin" />
+        </>
+      ) : user ? (
         <>
           <DropdownMenu>
             <DropdownMenuTrigger className="cursor-pointer">
