@@ -1,7 +1,6 @@
 import React from "react";
 import Logo from "./Logo";
 import NavbarMenu from "./NavbarMenu";
-import SearchBox from "./SearchBox";
 import UserButton from "./UserButton";
 import MobileMenu from "./MobileMenu";
 import { auth } from "@/auth";
@@ -10,7 +9,7 @@ const Header = async () => {
   const session = await auth();
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
-      <nav className="h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between container mx-auto">
+      <nav className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* logo section */}
         <Logo />
         {/* desktop menu */}

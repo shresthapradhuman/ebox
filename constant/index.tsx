@@ -15,7 +15,7 @@ export const navItems = [
   },
   {
     label: "My Tickets",
-    url: "/tickets",
+    url: "/dashboard/tickets",
   },
 ];
 
