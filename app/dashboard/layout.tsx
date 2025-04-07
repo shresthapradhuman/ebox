@@ -4,7 +4,6 @@ import DashboardSidebar from "./_components/DashboardSidebar";
 import { Separator } from "@/components/ui/separator";
 import DashboardTitle from "./_components/DashboardTitle";
 import { auth } from "@/auth";
-import UserButton from "../(site)/_components/UserButton";
 import DashboardUser from "./_components/DashboardUser";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
