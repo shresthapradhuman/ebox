@@ -9,6 +9,8 @@ export const publicRoutes = [
   "/email-verified",
   "/events",
   "/events/:path*",
+  "/how-it-works",
+  "help-center",
 ];
 
 /**
@@ -19,13 +21,7 @@ export const publicRoutes = [
  * @type {string[]}
  */
 
-export const authRoutes = [
-  "/login",
-  "/register",
-  "/error",
-  "/forgot-password",
-  "/reset-password",
-];
+export const authRoutes = ["/login", "/register", "/error", "/forgot-password", "/reset-password"];
 
 /**
  * The prefix for the api routes

@@ -1,8 +1,8 @@
 "use client";
-import React, { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { eventSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Event } from "@prisma/client";
+import { Category, Event } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,18 +31,32 @@ import DatePicker from "@/components/date-picker";
 import TimePicker from "@/components/time-picker";
 
 import { toast } from "sonner";
-import { createEventAction, updateEventAction } from '../actions';
+import { createCategoryAction, createEventAction, updateEventAction } from "../actions";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type FormData = z.infer<typeof eventSchema>;
 
-const EventForm = ({ event }: { event?: Event }) => {
+const EventForm = ({ event, categories }: { event?: Event; categories: Category[] }) => {
   const router = useRouter();
+  const [categoriesData, setCategoriesData] = useState<Category[]>(categories);
+  const [newCategory, setNewCategory] = useState("");
   const [isPending, startTransition] = useTransition();
   const form = useForm<FormData>({
     resolver: zodResolver(eventSchema),
     defaultValues: {
       title: event?.title || "",
       status: event?.status || "DRAFT",
+      capacity: event?.capacity || "",
       description: event?.description || "",
       date: event?.date || new Date(),
       startTime: event?.startTime || "",
@@ -50,6 +64,7 @@ const EventForm = ({ event }: { event?: Event }) => {
       venue: event?.venue || "",
       price: event?.price || "",
       image: event?.image || "",
+      categoryId: event?.categoryId || "",
     },
   });
   const onSubmit = (values: FormData) => {
@@ -70,6 +85,23 @@ const EventForm = ({ event }: { event?: Event }) => {
       }
     });
   };
+
+  const handleAddCategory = async () => {
+    createCategoryAction(newCategory).then((response) => {
+      if (!response.success) {
+        toast.error("Failed to create category", {
+          style: { color: "red" },
+        });
+        return;
+      }
+      if (response.data) {
+        setCategoriesData((prevState) => [...prevState, response.data]);
+        toast.success("Category created successfully", {
+          style: { color: "green" },
+        });
+      }
+    });
+  };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -79,14 +111,15 @@ const EventForm = ({ event }: { event?: Event }) => {
             <CardDescription>Enter the basic information about your event</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="grid gap-4 sm:grid-cols-2">
+            {/* title */}
+            <div className="space-y-2">
               <FormField
                 control={form.control}
                 name="title"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel htmlFor={field.name} className="text-base text-inherit">
-                      Event Title
+                      Name your event
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -100,31 +133,8 @@ const EventForm = ({ event }: { event?: Event }) => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor={field.name} className="text-base text-inherit">
-                      Status
-                    </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select Status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="DRAFT">Drafted</SelectItem>
-                        <SelectItem value="PUBLISHED">Published</SelectItem>
-                        <SelectItem value="CANCELLED">Cancelled</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
+            {/* description */}
             <div className="space-y-2">
               <FormField
                 control={form.control}
@@ -132,7 +142,7 @@ const EventForm = ({ event }: { event?: Event }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel htmlFor={field.name} className="text-base text-inherit">
-                      Description
+                      Tell me about your event
                     </FormLabel>
                     <FormControl>
                       <Textarea
@@ -146,6 +156,89 @@ const EventForm = ({ event }: { event?: Event }) => {
                   </FormItem>
                 )}
               />
+            </div>
+            {/* category and status */}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <FormField
+                  control={form.control}
+                  name="categoryId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center justify-between">
+                        <FormLabel htmlFor={field.name} className="text-base text-inherit">
+                          Choose Event Category
+                        </FormLabel>
+                        <AlertDialog>
+                          <AlertDialogTrigger className="text-sm">
+                            + Add new category
+                          </AlertDialogTrigger>
+                          <AlertDialogContent className="bg-white">
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Create New Cateogry</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                <Input
+                                  type="text"
+                                  placeholder="Category name"
+                                  className="input-field mt-3"
+                                  onChange={(e) => setNewCategory(e.target.value)}
+                                />
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => startTransition(handleAddCategory)}>
+                                Add
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select Category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {categoriesData.map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="space-y-2">
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor={field.name} className="text-base text-inherit">
+                        Current Event Status
+                      </FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select Status" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="DRAFT">Drafted</SelectItem>
+                          <SelectItem value="PUBLISHED">Published</SelectItem>
+                          <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="space-y-2">
@@ -200,7 +293,7 @@ const EventForm = ({ event }: { event?: Event }) => {
                 />
               </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-3">
               <div className="space-y-2">
                 <FormField
                   control={form.control}
@@ -212,6 +305,28 @@ const EventForm = ({ event }: { event?: Event }) => {
                       </FormLabel>
                       <FormControl>
                         <Input id={field.name} placeholder="Enter event venue" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="space-y-2">
+                <FormField
+                  control={form.control}
+                  name="capacity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor={field.name} className="text-base text-inherit">
+                        Capacity
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="capitalize"
+                          id={field.name}
+                          placeholder="People Number"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

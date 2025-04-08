@@ -12,15 +12,13 @@ const HeroSection = () => {
           {/* content section */}
           <div className="flex flex-col space-y-6">
             <h1 className="text-4xl font-bold !leading-tight sm:text-5xl md:text-6xl">
-              Discover Your <span className="text-primary">Unforgettable </span>{" "}
-              Event Experience
+              Discover Your <span className="text-primary">Unforgettable </span> Event Experience
             </h1>
             <p className="max-w-[600px] text-lg text-muted-foreground md:text-xl">
               Our platform offers a seamless experience for both{" "}
-              <span className="font-semibold">Organizers And Attendees</span>.
-              Book events, host your own event, and sell tickets with ease.
-              Whether you're planing a gathering or searching for the perfect
-              event to attend, we provide all the tools you need.{" "}
+              <span className="font-semibold">Organizers And Attendees</span>. Book events, host
+              your own event, and sell tickets with ease. Whether you're planing a gathering or
+              searching for the perfect event to attend, we provide all the tools you need.{" "}
             </p>
             <div className="flex flex-col space-y-3 sm:flex-row sm:space-x-6 sm:space-y-0">
               <Button size="lg" className="group" asChild>
@@ -41,9 +39,7 @@ const HeroSection = () => {
               </div>
               <div className="flex items-center">
                 <MapPinIcon className="mr-2 h-5 w-5 text-primary" />
-                <span className="text-sm font-medium">
-                  Service All Over The Country
-                </span>
+                <span className="text-sm font-medium">Service All Over The Country</span>
               </div>
             </div>
           </div>

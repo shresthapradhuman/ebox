@@ -1,11 +1,12 @@
 import React from "react";
-import EventForm from '../_components/EventForm';
+import EventForm from "../_components/EventForm";
+import { prisma } from "@/prisma/client";
 
-
-const CreateEventPage = () => {
+const CreateEventPage = async () => {
+  const categories = await prisma.category.findMany();
   return (
     <div className="container mx-auto flex flex-col p-4">
-      <EventForm />
+      <EventForm categories={categories} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
-import { prisma } from "@/prisma/client";
 import EventForm from "../_components/EventForm";
+import { getEventById, getEventCategories } from "../helper";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -8,15 +8,12 @@ type PageProps = {
 
 const DashboardEventEditPage = async ({ params }: PageProps) => {
   const { id } = await params;
-  const event = await prisma.event.findFirst({
-    where: {
-      id,
-    },
-  });
+  const event = await getEventById(id);
+  const categories = await getEventCategories();
   return (
     <div className="container mx-auto flex flex-col p-4">
       {event ? (
-        <EventForm event={event} />
+        <EventForm event={event} categories={categories} />
       ) : (
         <p>Event not found.</p> // Fallback message if event is null
       )}

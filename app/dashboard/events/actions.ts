@@ -28,6 +28,7 @@ export const createEventAction = async (values: z.infer<typeof eventSchema>) => 
         title: data.title.toLowerCase(),
         description: data.description,
         status: data.status,
+        capacity: data.capacity,
         date: data.date,
         startTime: data.startTime,
         endTime: data.endTime,
@@ -36,6 +37,11 @@ export const createEventAction = async (values: z.infer<typeof eventSchema>) => 
         image: data.image,
         organizer: {
           connect: { id: session?.user?.id },
+        },
+        category: {
+          connect: {
+            id: data.categoryId,
+          },
         },
       },
     });
@@ -64,7 +70,7 @@ export const updateEventAction = async (id: string, values: z.infer<typeof event
         message: "User authentication failed",
       };
     }
-    const { success, data } = eventSchema.safeParse(values);
+    const { success } = eventSchema.safeParse(values);
     /** check event exist or not */
     if (!success) {
       return {
@@ -149,6 +155,37 @@ export const deleteEventAction = async (eventsId: string[]) => {
     return {
       success: false,
       message: "Internal server error",
+    };
+  }
+};
+
+export const createCategoryAction = async (name: string) => {
+  try {
+    const category = await prisma.category.findFirst({
+      where: {
+        name,
+      },
+    });
+    if (category) {
+      return {
+        success: false,
+        message: "Category already exist",
+      };
+    }
+    const newCateogry = await prisma.category.create({
+      data: {
+        name,
+      },
+    });
+    return {
+      success: true,
+      data: newCateogry,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Internal server error.",
     };
   }
 };

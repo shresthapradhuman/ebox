@@ -1,7 +1,11 @@
 import { prisma } from "@/prisma/client";
 
 export const getEvents = async () => {
-  return prisma.event.findMany();
+  return prisma.event.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 };
 
 export const getEventById = async (id: string) => {
@@ -55,4 +59,12 @@ export const getEventIncreasePercentage = async () => {
   });
   const increaseCount = currentMonthCount - lastMonthCount;
   return increaseCount;
+};
+
+export const getEventCategories = async () => {
+  return await prisma.category.findMany({
+    orderBy: {
+      id: "desc",
+    },
+  });
 };
