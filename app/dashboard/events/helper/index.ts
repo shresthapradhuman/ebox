@@ -16,6 +16,10 @@ export const getEventById = async (id: string) => {
     where: {
       id,
     },
+    include: {
+      organizer: true,
+      orders: true,
+    },
   });
 };
 
