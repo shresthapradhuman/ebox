@@ -5,6 +5,9 @@ export const getEvents = async () => {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      orders: true,
+    },
   });
 };
 
