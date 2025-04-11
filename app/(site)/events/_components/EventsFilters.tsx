@@ -11,6 +11,7 @@ import { z } from "zod";
 import { Category } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
+import EventsPriceFitlers from "./EventsPriceFitlers";
 
 type FormData = z.infer<typeof eventsFiltersSchema>;
 
@@ -34,13 +35,16 @@ const EventsFilters = ({ categories }: { categories: Category[] }) => {
       params.delete("categories");
     }
 
+    params.set("minPrice", values.priceRange[0].toString());
+    params.set("maxPrice", values.priceRange[1].toString());
+
     // Update URL with new params
     router.push(`?${params.toString()}`);
   };
   const handleReset = () => {
     form.reset({
       categories: [],
-      priceRange: [0, 1000],
+      priceRange: [0, 10000],
       startDate: undefined,
       endDate: undefined,
     });
@@ -50,22 +54,21 @@ const EventsFilters = ({ categories }: { categories: Category[] }) => {
   };
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-medium sm:text-lg">Filters</CardTitle>
-        </div>
+      <CardHeader className="px-3 py-2 sm:px-4 sm:pb-0 sm:pt-4">
+        <CardTitle className="text-base font-semibold sm:text-lg">Filters</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 px-3 py-2 sm:space-y-6 sm:px-4 sm:py-3">
+      <CardContent className="space-y-6 px-3 py-2 sm:space-y-8 sm:px-4 sm:pb-8">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <Accordion
               type="multiple"
               defaultValue={["categories", "price", "date"]}
-              className="space-y-2"
+              className="mb-8 space-y-3"
             >
               <EventsCategoriesFilters categories={categories} form={form} />
+              <EventsPriceFitlers form={form} />
             </Accordion>
-            <div className="flex gap-2 pt-2">
+            <div className="flex gap-2">
               <Button type="button" variant="outline" className="w-1/2" onClick={handleReset}>
                 Reset
               </Button>
