@@ -77,3 +77,10 @@ export const eventSchema = z
       path: ["endTime"],
     },
   );
+
+export const eventsFiltersSchema = z.object({
+  categories: z.array(z.string()).optional(),
+  priceRange: z.array(z.number()).length(2),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
+});

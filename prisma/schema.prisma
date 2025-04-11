@@ -80,6 +80,7 @@ model Event {
 
 model Category {
   id    String  @id @default(cuid())
+  slug  String  @unique
   name  String
   event Event[]
 
