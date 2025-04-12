@@ -33,7 +33,6 @@ const EventsCategoriesFilters = ({
               control={form.control}
               name="categories"
               render={({ field }) => {
-                console.log(field.value);
                 return (
                   <FormItem className="flex flex-row items-start space-x-2 space-y-0">
                     <FormControl>

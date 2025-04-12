@@ -27,7 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import FileUpload from "@/components/file-upload";
-import DatePicker from "@/components/date-picker";
+
 import TimePicker from "@/components/time-picker";
 
 import { toast } from "sonner";
@@ -43,6 +43,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { DatePicker } from "@/components/date-picker";
 
 type FormData = z.infer<typeof eventSchema>;
 

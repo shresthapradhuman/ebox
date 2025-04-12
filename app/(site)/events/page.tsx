@@ -1,12 +1,13 @@
 import React from "react";
-import EventList from "./_components/EventList";
 import EventsFilters from "./_components/EventsFilters";
 import { getEventCategories } from "@/app/dashboard/events/helper";
+import EventsList from "./_components/EventsList";
+import MobileEventFilters from "./_components/MobileEventFilters";
 
 const EventsPage = async () => {
   const categories = await getEventCategories();
   return (
-    <div className="container mx-auto max-w-screen-xl p-4 sm:px-6 lg:px-8">
+    <div className="container mx-auto w-full p-4 sm:px-6 lg:px-8">
       <div className="flex flex-col space-y-6">
         {/* title section */}
         <div className="flex flex-col space-y-2">
@@ -17,11 +18,18 @@ const EventsPage = async () => {
         </div>
         {/* content section */}
         <div className="flex flex-col gap-6 md:flex-row">
-          <div className="w-full md:w-64 md:flex-shrink-0">
-            <EventsFilters categories={categories} />
+          <div className="hidden w-64 flex-shrink-0 lg:block">
+            <div className="sticky top-20">
+              <EventsFilters categories={categories} />
+            </div>
           </div>
           <div className="flex-1">
-            <EventList />
+            <div className="mb-4 lg:hidden">
+              <MobileEventFilters categories={categories} />
+            </div>
+            <div className="overflow-auto">
+              <EventsList />
+            </div>
           </div>
         </div>
       </div>
