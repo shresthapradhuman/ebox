@@ -175,6 +175,7 @@ export const createCategoryAction = async (name: string) => {
     const newCateogry = await prisma.category.create({
       data: {
         name,
+        slug: name.toLowerCase().replace(/ /g, "-"),
       },
     });
     return {
