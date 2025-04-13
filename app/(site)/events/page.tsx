@@ -15,9 +15,9 @@ const EventsListPage = async ({ searchParams }: PageProps) => {
   const viewMode = view || "grid";
   const cateogries = await getEventCategories();
   const events = await prisma.event.findMany({
-    where: keyword
-      ? {
-          OR: [
+    where: {
+      OR: keyword
+        ? [
             {
               title: {
                 contains: keyword,
@@ -30,15 +30,16 @@ const EventsListPage = async ({ searchParams }: PageProps) => {
                 mode: "insensitive",
               },
             },
-          ],
-        }
-      : {},
-    include: {
+          ]
+        : undefined,
       category: {
-        where: {
-          slug: category,
+        slug: {
+          contains: category,
         },
       },
+    },
+    include: {
+      category: true,
       orders: true,
     },
     orderBy: {
