@@ -6,7 +6,7 @@ import { ArrowRightIcon, CalendarDaysIcon, MapPinIcon } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full overflow-hidden py-12 md:py-24">
+    <section className="relative w-full overflow-hidden md:py-16 lg:py-24">
       <div className="container relative z-10 mx-auto w-full p-4 lg:p-4">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           {/* content section */}
@@ -46,10 +46,10 @@ const HeroSection = () => {
           {/* image section */}
           <div className="relative w-full">
             <Image
-              src="/hero.png?height=600&width=600"
+              src="/hero.png?height=500&width=500"
               alt="Event management showcase"
-              width={600}
-              height={600}
+              width={500}
+              height={500}
               className="h-full w-full object-cover"
               priority
               quality={100}
