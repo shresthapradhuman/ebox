@@ -37,6 +37,7 @@ const EventsFilters = ({ categories }: { categories: Category[] }) => {
       params.set("category", value);
     } else {
       params.delete("category");
+      setValue(""); // Ensure value is reset when category is removed from URL
     }
 
     router.push(`/events?${params.toString()}`);
