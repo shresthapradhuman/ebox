@@ -1,9 +1,10 @@
-import { CalendarIcon, MapPinIcon, ShoppingBagIcon, UsersIcon } from "lucide-react";
+import { ArrowRightIcon, CalendarIcon, MapPinIcon, ShoppingBagIcon, UsersIcon } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EventProps } from "./EventsList";
 import CoverImage from "@/components/cover-image";
+import Link from "next/link";
 
 interface EventCardProps {
   event: EventProps;
@@ -53,17 +54,22 @@ const EventCardItem = ({ event }: EventCardProps) => {
           </div>
           <div className="flex items-center gap-2">
             <UsersIcon className="h-4 w-4 text-muted-foreground" />
-            <span>{event.orders.length.toLocaleString()} attendees</span>
+            <span>{event.orders?.length.toLocaleString()} attendees</span>
           </div>
         </div>
       </CardContent>
       <CardFooter className="pt-2">
-        <div className="flex w-full gap-2">
-          <Button variant="outline" className="w-1/2">
+        <div className="mt-auto flex gap-2">
+          <Button variant="outline" className="w-1/2 sm:w-auto">
             <ShoppingBagIcon />
             Add to cart
           </Button>
-          <Button className="w-1/2">Buy Tickets</Button>
+          <Button variant="ghost" size="sm" className="gap-1" asChild></Button>
+          <Button className="w-1/2 sm:w-auto" asChild>
+            <Link href={`/events/${event.id}`}>
+              Check Details <ArrowRightIcon className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </CardFooter>
     </Card>

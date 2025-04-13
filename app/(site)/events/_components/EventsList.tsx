@@ -6,8 +6,8 @@ import { EventListItem } from "./EventListItem";
 import EventCardItem from "./EventCardItem";
 
 export type EventProps = Event & {
-  category: Category | null;
-  orders: Order[];
+  category?: Category | null;
+  orders?: Order[];
 };
 
 export interface EventsListProps {

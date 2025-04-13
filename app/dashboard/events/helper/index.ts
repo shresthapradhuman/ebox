@@ -7,6 +7,7 @@ export const getEvents = async () => {
     },
     include: {
       orders: true,
+      category: true,
     },
   });
 };

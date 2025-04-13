@@ -1,9 +1,10 @@
-import { CalendarIcon, MapPinIcon, ShoppingBagIcon, UsersIcon } from "lucide-react";
+import { ArrowRightIcon, CalendarIcon, MapPinIcon, ShoppingBagIcon, UsersIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EventProps } from "./EventsList";
 import CoverImage from "@/components/cover-image";
+import Link from "next/link";
 
 export function EventListItem({ event }: { event: EventProps }) {
   const formattedDate = new Date(event.date).toLocaleDateString("ja-JP", {
@@ -49,7 +50,7 @@ export function EventListItem({ event }: { event: EventProps }) {
               </div>
               <div className="flex items-center gap-2">
                 <UsersIcon className="h-4 w-4 text-muted-foreground" />
-                <span>{event.orders.length.toLocaleString()} attendees</span>
+                <span>{event.orders?.length.toLocaleString()} attendees</span>
               </div>
             </div>
             <div className="mt-auto flex gap-2">
@@ -57,7 +58,12 @@ export function EventListItem({ event }: { event: EventProps }) {
                 <ShoppingBagIcon />
                 Add to cart
               </Button>
-              <Button className="w-1/2 sm:w-auto">Buy Tickets</Button>
+              <Button variant="ghost" size="sm" className="gap-1" asChild></Button>
+              <Button className="w-1/2 sm:w-auto" asChild>
+                <Link href={`/events/${event.id}`}>
+                  Check Details <ArrowRightIcon className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

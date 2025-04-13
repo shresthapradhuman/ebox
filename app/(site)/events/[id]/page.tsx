@@ -13,8 +13,8 @@ import React from "react";
 import EventNotFound from "../_components/EventNotFound";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { cn } from "@/lib/utils";
-import EnrollButton from "../_components/EnrollButton";
 import { getEventById } from "@/app/dashboard/events/helper";
+import CheckoutButton from "../_components/CheckoutButton";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -107,7 +107,7 @@ const EventDetailPage = async ({ params }: PageProps) => {
                 </div>
               </CardContent>
               <CardFooter>
-                <EnrollButton />
+                <CheckoutButton />
               </CardFooter>
             </Card>
           </div>
