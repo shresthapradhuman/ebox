@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, Search, Ticket, Users, CreditCard, CheckCircle, Upload } from "lucide-react";
+import { Metadata } from "next";
 
 export default function HowItWorks() {
   return (
@@ -236,3 +237,8 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "How It Works | Event Marketplace",
+  description: "Discover the inner workings of our event marketplace platform",
+};
