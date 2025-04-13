@@ -59,7 +59,7 @@ const EventCardItem = ({ event }: EventCardProps) => {
         </div>
       </CardContent>
       <CardFooter className="pt-2">
-        <div className="mt-auto flex gap-2">
+        <div className="mt-auto flex w-full items-center justify-between">
           <Button variant="outline" className="w-1/2 sm:w-auto">
             <ShoppingBagIcon />
             Add to cart

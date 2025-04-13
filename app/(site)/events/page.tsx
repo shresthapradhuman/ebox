@@ -1,10 +1,10 @@
 import React from "react";
 import EventsSearchInput from "./_components/EventsSearchInput";
 import EventsFilters from "./_components/EventsFilters";
-import { getEventCategories } from "@/app/dashboard/events/helper";
 import EventsViewModeToggle from "./_components/EventsViewModeToggle";
 import EventsList from "./_components/EventsList";
 import { prisma } from "@/prisma/client";
+import EventNotFound from "./_components/EventNotFound";
 
 type PageProps = {
   searchParams: Promise<{ view: "grid" | "list"; sort: string; category: string; keyword: string }>;
@@ -13,7 +13,6 @@ type PageProps = {
 const EventsListPage = async ({ searchParams }: PageProps) => {
   const { view, sort, keyword, category } = await searchParams;
   const viewMode = view || "grid";
-  const cateogries = await getEventCategories();
   const events = await prisma.event.findMany({
     where: {
       OR: keyword
@@ -57,16 +56,22 @@ const EventsListPage = async ({ searchParams }: PageProps) => {
             Find and book tickets for the best events in your area
           </p>
         </div>
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="w-full md:w-1/3">
-            <EventsSearchInput placeholder="Search events ..." />
-          </div>
-          <div className="flex items-center gap-4">
-            <EventsFilters categories={cateogries} />
-            <EventsViewModeToggle currentViewMode={viewMode} />
-          </div>
-        </div>
-        <EventsList events={events} viewMode={viewMode} />
+        {events.length > 0 ? (
+          <>
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="w-full md:w-1/3">
+                <EventsSearchInput placeholder="Search events ..." />
+              </div>
+              <div className="flex items-center gap-4">
+                <EventsFilters />
+                <EventsViewModeToggle currentViewMode={viewMode} />
+              </div>
+            </div>
+            <EventsList events={events} viewMode={viewMode} />
+          </>
+        ) : (
+          <EventNotFound />
+        )}
       </div>
     </div>
   );
