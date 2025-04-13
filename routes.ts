@@ -10,7 +10,7 @@ export const publicRoutes = [
   "/events",
   "/events/:path*",
   "/how-it-works",
-  "help-center",
+  "/help-center",
 ];
 
 /**
