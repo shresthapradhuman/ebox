@@ -15,6 +15,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { cn } from "@/lib/utils";
 import { getEventById } from "@/app/dashboard/events/helper";
 import CheckoutButton from "../_components/CheckoutButton";
+import { Metadata } from "next";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -120,5 +121,17 @@ const EventDetailPage = async ({ params }: PageProps) => {
     </section>
   );
 };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const event = await getEventById(id);
+
+  return {
+    title: event?.title,
+    description: event?.description,
+  };
+}
+
+export const dynamic = "force-dynamic";
 
 export default EventDetailPage;
